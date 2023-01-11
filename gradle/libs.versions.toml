@@ -11,7 +11,7 @@ mockito = '4.1.0'
 slf4j-jcl = '1.7.36'
 commons-lang3 = '3.12.0'
 shadow = '7.1.2'
-micronaut-gradle-plugin = "3.6.1"
+micronaut-gradle-plugin = "3.7.0"
 
 [libraries]
 fn-api = { module = 'com.fnproject.fn:api', version.ref = 'fn' }
