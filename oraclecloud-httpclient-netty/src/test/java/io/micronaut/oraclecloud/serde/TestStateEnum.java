@@ -1,14 +1,16 @@
-package io.micronaut.oraclecloud.serde.model;
+package io.micronaut.oraclecloud.serde;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.oracle.bmc.http.internal.BmcEnum;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Serdeable
 public enum TestStateEnum implements BmcEnum {
     Active("active"),
     Inactive("inactive"),

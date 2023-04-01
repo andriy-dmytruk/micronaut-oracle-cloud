@@ -23,6 +23,37 @@ dependencies {
 
     testImplementation("com.oracle.oci.sdk:oci-java-sdk-monitoring:$oci3Version")
     testCompileOnly("com.oracle.oci.sdk:oci-java-sdk-monitoring:$oci3Version")
+
+    // Processor
+    implementation libs.javapoet
+    implementation mn.micronaut.inject.java
+    implementation("com.oracle.oci.sdk:oci-java-sdk-common:$oci3Version") {
+        transitive = false
+    }
+    implementation("com.oracle.oci.sdk:oci-java-sdk-common-httpclient:$oci3Version") {
+        transitive = false
+    }
+    implementation("com.oracle.oci.sdk:oci-java-sdk-addons-graalvm:$oci3Version") {
+        transitive = false
+    }
+    implementation(mn.micronaut.serde.jackson)
+    implementation(mn.jackson.databind)
+
+    testImplementation "com.oracle.oci.sdk:oci-java-sdk-monitoring:$oci3Version"
+    testCompileOnly "com.oracle.oci.sdk:oci-java-sdk-monitoring:$oci3Version"
+    testAnnotationProcessor "com.oracle.oci.sdk:oci-java-sdk-monitoring:$oci3Version"
+    testImplementation "com.oracle.oci.sdk:oci-java-sdk-marketplace:$oci3Version"
+    testCompileOnly "com.oracle.oci.sdk:oci-java-sdk-marketplace:$oci3Version"
+    testAnnotationProcessor "com.oracle.oci.sdk:oci-java-sdk-marketplace:$oci3Version"
+
+    for (name in gradle.oci3Bom.dependencyManagement.dependencies.dependency.artifactId*.text()) {
+        if (name == "oci-java-sdk-shaded-full") {
+            continue
+        }
+        testCompileOnly "com.oracle.oci.sdk:$name:$oci3Version"
+        testImplementation "com.oracle.oci.sdk:$name:$oci3Version"
+        testAnnotationProcessor "com.oracle.oci.sdk:$name:$oci3Version"
+    }
 }
 
 configurations.all {
@@ -30,6 +61,8 @@ configurations.all {
         eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'io.micronaut.serde') {
                 details.useVersion "1.5.2-SNAPSHOT"
+            } else if (details.requested.group == 'io.micronaut' && details.requested.name == "micronaut-inject-java") {
+                details.useVersion '3.7.5'
             }
         }
     }

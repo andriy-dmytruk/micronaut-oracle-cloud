@@ -1,4 +1,4 @@
-package io.micronaut.oraclecloud.httpclient.netty.visitor
+package io.micronaut.oraclecloud.serde.visitor
 
 import io.micronaut.annotation.processing.test.AbstractTypeElementSpec
 import io.micronaut.core.type.Argument

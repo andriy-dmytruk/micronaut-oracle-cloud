@@ -17,6 +17,8 @@ package io.micronaut.oraclecloud.httpclient.netty;
 
 import com.oracle.bmc.http.client.HttpClientBuilder;
 import com.oracle.bmc.http.client.HttpProvider;
+import com.oracle.bmc.http.client.JsonMapper;
+import io.micronaut.oraclecloud.serde.MicronautSerdeObjectMapper;
 
 /**
  * Netty-based implementation of {@link HttpProvider}.
@@ -32,6 +34,11 @@ public final class NettyHttpProvider implements HttpProvider {
     @Override
     public HttpClientBuilder newBuilder() {
         return new NettyHttpClientBuilder();
+    }
+
+    @Override
+    public JsonMapper getJsonMapper() {
+        return MicronautSerdeObjectMapper.getJsonMapper();
     }
 }
 

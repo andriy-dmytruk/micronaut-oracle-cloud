@@ -35,6 +35,8 @@ public final class MicronautSerdeObjectMapper {
         "io.micronaut.oraclecloud.serde.filter"
     );
 
+    private static final SerdeJsonMapper DEFAULT_JSON_MAPPER = new SerdeJsonMapper(DEFAULT_MAPPER);
+
     private MicronautSerdeObjectMapper() {
     }
 
@@ -43,5 +45,12 @@ public final class MicronautSerdeObjectMapper {
      */
     public static ObjectMapper getObjectMapper() {
         return DEFAULT_MAPPER;
+    }
+
+    /**
+     * @return The default json mapper
+     */
+    public static SerdeJsonMapper getJsonMapper() {
+        return DEFAULT_JSON_MAPPER;
     }
 }

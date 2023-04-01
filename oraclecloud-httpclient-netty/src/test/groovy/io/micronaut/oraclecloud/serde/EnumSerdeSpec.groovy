@@ -1,7 +1,6 @@
 package io.micronaut.oraclecloud.serde
 
 
-import io.micronaut.oraclecloud.serde.model.TestStateEnum
 import io.micronaut.runtime.server.EmbeddedServer
 
 class EnumSerdeSpec extends SerdeSpecBase {
@@ -17,7 +16,7 @@ class EnumSerdeSpec extends SerdeSpecBase {
         echoTest(embeddedServer, TestStateEnum.UnknownEnumValue) == 'null'
     }
 
-    void "test enum deserializatioin"() {
+    void "test enum deserialization"() {
         given:
         EmbeddedServer embeddedServer = initContext()
 

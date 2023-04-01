@@ -2,6 +2,7 @@ package io.micronaut.oraclecloud.serde
 
 import com.fasterxml.jackson.annotation.JsonFilter
 import com.oracle.bmc.http.client.internal.ExplicitlySetBmcModel
+import com.oracle.bmc.monitoring.model.Alarm
 import com.oracle.bmc.monitoring.model.Metric
 import io.micronaut.oraclecloud.serde.model.BaseModel
 import io.micronaut.oraclecloud.serde.model.ComplexModel
@@ -51,6 +52,50 @@ class ExplicitlySetSerdeSpec extends SerdeSpecBase {
 
         then:
         '{"compartmentId":"a"}' == body
+    }
+
+    void "Alarm serialization test"() throws Exception {
+        given:
+        EmbeddedServer embeddedServer = initContext()
+        Alarm alarm = Alarm.builder()
+                .compartmentId("a")
+                .displayName("name")
+                .build()
+
+        when:
+        var body = echoTest(embeddedServer, alarm)
+
+        then:
+        '{"displayName":"name","compartmentId":"a"}' == body
+    }
+
+    void "Alarm deserialization test (without explicitly set)"() throws Exception {
+        given:
+        EmbeddedServer embeddedServer = initContext()
+        Alarm alarm = Alarm.builder()
+                .compartmentId("a")
+                .displayName("name")
+                .build()
+
+        when:
+        var res = echoTest(embeddedServer, '{"displayName":"name","compartmentId":"a"}', Alarm)
+        // Not yet supported, so mark the properties manually for comparison
+        ExplicitlySetUtils.markAsExplicitlySet(res, "compartmentId", "displayName")
+
+        then:
+        res == alarm
+    }
+
+    void "Alarm.Severity deserialization test"() throws Exception {
+        given:
+        EmbeddedServer embeddedServer = initContext()
+        Alarm.Severity severity = Alarm.Severity.UnknownEnumValue
+
+        when:
+        var res = echoTest(embeddedServer, '"invalid value"', Alarm.Severity)
+
+        then:
+        res == severity
     }
 
     void "Explicitly set Metric serialization test"() throws Exception {
@@ -154,6 +199,12 @@ class ExplicitlySetSerdeSpec extends SerdeSpecBase {
         MyModel(String string) {
             this.string = string
             this.markPropertyAsExplicitlySet("string")
+        }
+    }
+
+    static class ExplicitlySetUtils extends ExplicitlySetBmcModel {
+        static void markAsExplicitlySet(ExplicitlySetBmcModel model, String... properties) {
+            Arrays.stream(properties).forEach(p -> model.markPropertyAsExplicitlySet(p))
         }
     }
 

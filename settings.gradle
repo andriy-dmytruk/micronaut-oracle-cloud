@@ -12,6 +12,10 @@ plugins {
 gradle.ext.ociBom = new groovy.xml.XmlSlurper().parse(
         "https://repo.maven.apache.org/maven2/com/oracle/oci/sdk/oci-java-sdk-bom/$ociVersion/oci-java-sdk-bom-${ociVersion}.pom")
 
+gradle.ext.oci3Bom = new groovy.xml.XmlSlurper().parse(
+        "C:/Users/AndriyDmytruk/.m2/repository/com/oracle/oci/sdk/oci-java-sdk-bom/$oci3Version/oci-java-sdk-bom-${oci3Version}.pom")
+
+
 rootProject.name = 'oracle-cloud'
 
 if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_11)) {
